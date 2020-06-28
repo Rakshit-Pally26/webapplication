@@ -1,0 +1,35 @@
+{% extends "header.html" %}
+
+{% block content %}
+        <p>Users List</p>
+        <hr style="height:2px;border-width:0;color:rgb(7, 167, 61);background-color:rgb(7, 167, 61)">
+        {% for user in Users %}
+        <p>First Name : {{ user.first_name }}</p>
+        <p>Last Name : {{ user.last_name }}</p>
+        <p>Email ID : {{ user.email }}</p>
+        <p>Phone Number : {{ user.phone_number }}</p>
+        <p>Data Type : {{ user.datatype }}</p>
+        <p>Location : {{ user.location_name }}</p>
+        <p>Latitude : {{ user.latitude }}</p>
+        <p>Longitude : {{ user.longitude }}</p>
+        <p>Damage Reported : {{ user.damage_reported }}</p>
+        <p>Description : {{ user.description }}</p>
+        <p>Drought Condition : {{ user.drought_condition }}</p>
+        <p>Flood Condition : {{ user.flood_condition }}</p>
+        <p>Count/Basin of withdrawal : {{ user.county_basin_withdrawal }}</p>
+        <p>Surface water withdrawal volume : {{ user.surface_water_withdrawal_volume }}</p>
+        <p>Ground water withdrawal volume : {{ user.ground_water_withdrawal_volume }}</p>
+        <p>Ground water level : {{ user.ground_water_level }}</p>
+        <p>Reported use by sector : {{ user.reported_use_by_sector }}</p>
+        <p>Number of intakes : {{ user.number_of_intakes }}</p>
+        <p>Surface water withdrawal : {{ user.surface_water_withdrawal }}</p>
+        <p>Ground water withdrawal : {{ user.ground_water_withdrawal }}</p>
+        <p>Type of crop : {{ user.type_of_crop }}</p>
+        <p>Total acers irrigated : {{ user.total_acers_irrigated }}</p>
+        <p>Total acers per crop irrigated : {{ user.total_acers_per_crop_irrigated }}</p>
+        <p>Irrigation type : {{ user.irrigation_type }}</p>
+        <p>Power requirements and operating pressure range : {{ user.power_requirements }}</p>
+        <p>Irrigation schedule information : {{ user.irrigation_schedule_info }}</p>
+        <hr style="height:2px;border-width:0;color:rgb(7, 167, 61);background-color:rgb(7, 167, 61)">
+        {% endfor %}
+{% endblock %}

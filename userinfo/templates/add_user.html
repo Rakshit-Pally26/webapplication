@@ -1,0 +1,163 @@
+{% extends "header.html" %}
+{% block content %} 
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        
+</head>
+<div class="row">
+    <div class="col-lg-8 mb-5" >
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <p><a href="/add_user" class="btn btn-primary">Data View</a>  <a href="/map_view" class="btn btn-primary">Map View</a> <a href="/map_view1" class="btn btn-primary">GeoCoder</a> <a href="/drought_monitor" class="btn btn-primary">Drought Monitoring</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+          <form action="/add_user_form_submission/" method="post" name="user_data">
+            {% csrf_token %}
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="first_name" type="text" class="form-control" required placeholder="First name">
+              </div>
+              <div class="col-md-6">
+                <input name="last_name" type="text" class="form-control" required placeholder="Last name">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="email" type="text" class="form-control" required placeholder="Email Adress">
+              </div>
+              <div class="col-md-6">
+                <input name="phone_number" type="number" class="form-control" required placeholder="Phone Number">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="datatype" type="text" class="form-control" required placeholder="Data Type">
+              </div>
+              <div class="col-md-6">
+                <input name="location_name" type="text" class="form-control" required placeholder="Location">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="latitude" type="text" class="form-control" required placeholder="Latitude">
+              </div>
+              <div class="col-md-6">
+                <input name="longitude" type="text" class="form-control" required placeholder="Longitude">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="county_basin_withdrawal" type="text" required class="form-control" placeholder="County/Basin of withdrawal">
+              </div>
+              <div class="col-md-6">
+                <input name="surface_water_withdrawal_volume" type="number" class="form-control" required placeholder="Surface water withdrawal volume(>3MGM)">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="ground_water_withdrawal_volume" type="number" class="form-control" required placeholder="Ground water withdrawal voume(>3MGM)">
+              </div>
+              <div class="col-md-6">
+                <input name="ground_water_level" type="number" class="form-control" required placeholder="Ground Water Level(in ft)">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="reported_use_by_sector" type="number" class="form-control" required placeholder="Reported use by sector (in Million Gallons)">
+              </div>
+              <div class="col-md-6">
+                <input name="number_of_intakes" type="number" class="form-control" required placeholder="Number of intakes">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="surface_water_withdrawal" type="number" class="form-control" required placeholder="Surface water withdrawal(MGM)">
+              </div>
+              <div class="col-md-6">
+                <input name="ground_water_withdrawal" type="number" class="form-control" required placeholder="Ground water withdrawal(MGM)">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="type_of_crop" type="text" class="form-control" required placeholder="Type of crop">
+              </div>
+              <div class="col-md-6">
+                <input name="total_acers_irrigated" type="number" class="form-control" required placeholder="Total acers irrigated">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="irrigation_type" type="text" class="form-control" required placeholder="Irrigation type">
+              </div>
+              <div class="col-md-6">
+                <input name="total_acers_per_crop_irrigated" type="number" class="form-control" required placeholder="Total acers per crop irrigated">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <input name="power_requirements" type="text" class="form-control" required placeholder="Power requirements and operating pressure range">
+              </div>
+              <div class="col-md-6">
+                <input name="irrigation_schedule_info" type="text" class="form-control" required placeholder="Irrigation schedule info">
+              </div>
+            </div>
+      
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <textarea name="damage_reported" class="form-control" placeholder="Damage Reported" cols="15" rows="5"></textarea>
+              </div>
+              <div class="col-md-6">
+                <textarea name="description" class="form-control" placeholder="Description" cols="15" rows="5"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 mb-4 mb-lg-0">
+                <textarea name="drought_condition" class="form-control" placeholder="Drought Condition" cols="15" rows="5"></textarea>
+              </div>
+              <div class="col-md-6">
+                <textarea name="flood_condition" class="form-control" placeholder="Flood Condition" cols="15" rows="5"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 mr-auto">
+                <input type="submit" class="btn btn-block btn-primary text-white py-3 px-5" id="generatepdf" value="Generate PDF" formtarget="_blank"/>
+                <hr>
+                <p><a href="/documents_upload" class="btn btn-primary text-white px-5">Upload Documents</a></p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 ml-auto">
+      <div class="bg-white p-3 p-md-5">
+        <h3 class="text-black mb-4">Contact Info</h3>
+        <ul class="list-unstyled footer-link">
+          <li class="d-block mb-3">
+            <span class="d-block text-black">Address:</span>
+            <span>240 McAdams Hall, Clemson University, Clemson, SC 29634-0303</span></li>
+          <li class="d-block mb-3"><span class="d-block text-black">Phone:</span><span>+1(864) 656-0681</span></li>
+        </ul>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,144 @@
+{% extends "header.html" %}
+{% load static%}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Accept coordinates as input to a geocoder</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+        <style>
+            #menu {
+            position: absolute;
+            background:rgb(248, 247, 247);
+            padding: 1px;
+            font-family: 'Open Sans', sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+        <link
+        rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+        type="text/css"
+        />
+        <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <p><a href="/add_user" class="btn btn-primary">Data View</a>  <a href="/map_view" class="btn btn-primary">Map View</a> <a href="/map_view1" class="btn btn-primary">GeoCoder</a> <a href="/drought_monitor" class="btn btn-primary">Drought Monitoring</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                Map View
+                            </div>
+                            
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div id="menu">
+                                    <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked" />
+                                    <label for="streets-v11">streets</label>
+                                    <input id="light-v10" type="radio" name="rtoggle" value="light" />
+                                    <label for="light-v10">light</label>
+                                    <input id="dark-v10" type="radio" name="rtoggle" value="dark" />
+                                    <label for="dark-v10">dark</label>
+                                    <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
+                                    <label for="outdoors-v11">outdoors</label>
+                                    <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" />
+                                    <label for="satellite-v9">satellite</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="map" style='width: 100%; height: 600px;'></div>
+ 
+                        <script>
+                            mapboxgl.accessToken = 'pk.eyJ1IjoianBhbGx5IiwiYSI6ImNrYjl3dnNsczBpZTgzNW1kN3pud2VnamMifQ.HcBDAu7yMIcrgtKTedIhjQ';
+                                var map = new mapboxgl.Map({
+                                    container: 'map',
+                                    style: 'mapbox://styles/mapbox/streets-v11',
+                                    center: [-82.836, 34.683],
+                                    zoom: 13
+                            });
+                            
+                        /* given a query in the form "lng, lat" or "lat, lng" returns the matching
+                        * geographic coordinate(s) as search results in carmen geojson format,
+                        * https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
+                        */
+                        var coordinatesGeocoder = function (query){
+                                // match anything which looks like a decimal degrees coordinate pair
+                                var matches = query.match(
+                                    /^[ ]*(?:Lat: )?(-?\d+\.?\d*)[, ]+(?:Lng: )?(-?\d+\.?\d*)[ ]*$/i
+                                );
+                                if (!matches) {
+                                    return null;
+                                }
+
+                                function coordinateFeature(lng, lat) {
+                                    return {
+                                        center: [lng, lat],
+                                        geometry: {
+                                            type: 'Point',
+                                            coordinates: [lng, lat]
+                                        },
+                                        place_name: 'Lat: ' + lat + ' Lng: ' + lng,
+                                        place_type: ['coordinate'],
+                                        properties: {},
+                                        type: 'Feature'
+                                    };
+                                }
+
+                                var coord1 = Number(matches[1]);
+                                var coord2 = Number(matches[2]);
+                                var geocodes = [];
+
+                                if (coord1 < -90 || coord1 > 90) {
+                                    // must be lng, lat
+                                    geocodes.push(coordinateFeature(coord1, coord2));
+                                }
+
+                                if (coord2 < -90 || coord2 > 90) {
+                                    // must be lat, lng
+                                    geocodes.push(coordinateFeature(coord2, coord1));
+                                }
+
+                                if (geocodes.length === 0) {
+                                    // else could be either lng, lat or lat, lng
+                                    geocodes.push(coordinateFeature(coord1, coord2));
+                                    geocodes.push(coordinateFeature(coord2, coord1));
+                                }
+
+                                return geocodes;
+                        };
+                        
+                        map.addControl(
+                                new MapboxGeocoder({
+                                    accessToken: mapboxgl.accessToken,
+                                    localGeocoder: coordinatesGeocoder,
+                                    zoom: 4,
+                                    placeholder: 'Try: -40, 170',
+                                    mapboxgl: mapboxgl
+                                })
+                        );
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+{% endblock %}

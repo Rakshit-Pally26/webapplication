@@ -1,0 +1,33 @@
+{% extends "header.html" %}
+{% load static%}
+{% block content %}
+      <div class="row">
+        <div class="col-md-4">
+          <h2 class="h1 mb-3"><b>About Us</b></h2>
+          <p style="font-size:x-large;">Agriculture Extension agents frequently conduct field trials with the appropriate data collection techniques, experiment controls, and replication that lead to better understanding of the farmer’s needs and increase sustainability of agricultural practices.</p>
+          <p style="font-size: x-large;">AEDAS is an easy-to-use web and mobile data collection app that lets you collect the data, both online and offline anytime, anywhere.</p>
+          <p><a href="https://www.clemson.edu/extension/" class="btn btn-primary text-white px-5" style="font-size: x-large;">Our works</a></p>
+        </div>
+        <div class="col-md-8">
+          <img src="{% static 'images/9.jpg' %}" alt="Image" class="img-fluid">
+        </div>
+      </div>
+
+  
+  <div class="row" style="padding-top: 72px;">
+    <div class="col-md-6 col-lg-6">
+        <div class="service-29128 text-center">
+          <div class="col-md-6 col-lg-6">
+            <img src="{% static 'images/1.png' %}" style="height: 180px; padding-left: 150px;">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+          <div class="service-29128 text-center">
+            <div class="col-md-6 col-lg-6">
+              <img src="{% static 'images/header.png' %}" style="height: 180px; padding-left: 150px;">
+            </div>
+          </div>
+      </div>
+  </div>
+{% endblock %}

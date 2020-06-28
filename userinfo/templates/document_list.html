@@ -1,0 +1,30 @@
+{% extends "header.html" %}
+{% block content %}
+<h2>Documents</h2>
+<table>
+    <thread>
+        <tr>
+            <th>Title</th>
+            <th>About</th>
+            <th>Download document</th>
+            <th>Image</th>
+        </tr>
+    </thread>
+    <tbody>
+        {% for document in documents %}
+        <tr>
+            <td>{{ document.title }}</td>
+            <td>{{ document.about }}</td>
+            <td><a href="{{ document.pdf.url }}" class="btn btn-primary btn-sm" target="_blank">Download document</a></td>
+            <td>
+                {% if document.image %}
+                <img src="{{ document.image.url }}" alt="{{ document.title }}" style="width: 100px;">
+                {% else %}
+                <span class="text-muted">Image Not Available</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
